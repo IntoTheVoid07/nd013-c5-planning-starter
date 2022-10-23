@@ -139,8 +139,8 @@ State BehaviorPlannerFSM::state_transition(const State& ego_state, State goal,
       // use cosine and sine to get x and y
       //
       auto ang = goal.rotation.yaw + M_PI;
-      goal.location.x += _stop_line_buffer + std::cos(ang);
-      goal.location.y += _stop_line_buffer + std::sin(ang);
+      goal.location.x += _stop_line_buffer * std::cos(ang);
+      goal.location.y += _stop_line_buffer * std::sin(ang);
 
       // LOG(INFO) << "BP- new STOP goal at: " << goal.location.x << ", "
       //          << goal.location.y;
@@ -202,7 +202,7 @@ State BehaviorPlannerFSM::state_transition(const State& ego_state, State goal,
       if (stopped_secs >= _req_stop_time && tl_state.compare("Red") != 0) {
         // move to FOLLOW_LANE state: What state do we want to move to, when
         // we are "done" at the STOPPED state?
-        _active_maneuver = FOLLOW_LANE;  // <- Fix This
+        _active_maneuver = FOLLOW_LANE;
         // LOG(INFO) << "BP - changing to FOLLOW_LANE";
       }
     }
